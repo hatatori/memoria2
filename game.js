@@ -1959,16 +1959,16 @@ function createCard(name, opacity) {
         // card.classList.toggle('flop')
         // console.log(cards.children)
         // console.log(Array.from(cards.children).indexOf(cardItem))
-        
+
         const position = Array.from(cards.children).indexOf(cardItem)
         if (!cardItem.firstChild.classList.contains('flop')) {
             flipCard(position)
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 Player.checkCards(position)
             }, 700)
         }
-        
+
 
 
     })
@@ -2014,7 +2014,7 @@ function flopCard(position) {
     cardsItem[position].aud.play()
 }
 
-function cardChecked(position){
+function cardChecked(position) {
     // const position = 3
     const cardsItem = Array.from(document.querySelectorAll(".card-item"))
     cardsItem[position].classList.add('checked')
@@ -2100,6 +2100,8 @@ function addDeckRandom(number = 10) {
     deck(listDeckTemp3)
     showAll()
     adjustColumns(number)
+
+    Player.quantityCardsSelected = number
 }
 
 function addDeckNormal(nameListChampions) {
@@ -2110,6 +2112,9 @@ function addDeckNormal(nameListChampions) {
     const listDeckTemp3 = unsort(listDeckTemp2.flat())
     deck(listDeckTemp3)
     showAll()
+
+    Player.quantityCardsSelected = nameListChampions.length
+
     // adjustColumns(nameListChampions.length)
 }
 
@@ -2135,6 +2140,9 @@ function removeCard(position) {
 
 function decreaseSizeCards(number) {
     const cardsItem = Array.from(document.querySelectorAll(".card-item"))
+
+
+
     // hideAll()
     // if (number > cardsItem.length) {
     // for (let i = cardsItem.length - 1; i >= number; i--) {
@@ -2168,16 +2176,18 @@ const Player = {
     chosenCards: [],
     chosenPositions: [],
     points: 0,
+    quantityCardsSelected: 0,
+    cardsRevealed: 0,
     checkCards(pos) {
 
         const cardsItem = Array.from(document.querySelectorAll(".card-item"))
-        
+
         if (this.chosenCards.length < 2) {
             this.chosenPositions.push(pos)
             this.chosenCards.push(cardsItem[pos].getAttribute('name'))
         }
 
-        if(this.chosenCards[0] != this.chosenCards[1] && this.chosenCards.length == 2){
+        if (this.chosenCards[0] != this.chosenCards[1] && this.chosenCards.length == 2) {
             console.log(this.chosenPositions)
             flopCard(this.chosenPositions[0])
             flopCard(this.chosenPositions[1])
@@ -2185,16 +2195,46 @@ const Player = {
             this.chosenPositions = []
         }
 
-        if(this.chosenCards[0] == this.chosenCards[1] && this.chosenCards.length == 2){
+        if (this.chosenCards[0] == this.chosenCards[1] && this.chosenCards.length == 2) {
             cardChecked(this.chosenPositions[0])
             cardChecked(this.chosenPositions[1])
             this.chosenCards = []
             this.chosenPositions = []
-            new Audio('./sounds/success.mp3').play()
+
+            this.cardsRevealed++
+
+            console.log(this.cardsRevealed + "/" + this.quantityCardsSelected)
+
+            if (this.cardsRevealed == this.quantityCardsSelected) {
+                new Audio('./sounds/success.mp3').play()
+                setTimeout(()=>{
+                    this.success()
+                }, 1000)
+            }
+            else {
+                new Audio('./sounds/victory.mp3').play()
+                console.log('vitoria')
+            }
         }
+    },
 
+    success() {
+        console.log('sucesso')
+        this.cardsRevealed = 0
+        this.chosenCards = []
+        this.chosenPositions = []
+        // new Audio('./sounds/success.mp3').play()
+        // setTimeout(() => {
+        decreaseSizeCards(++this.quantityCardsSelected)
+        // }, 1500);
 
-        
+        // setTimeout(()=>{
+        // this.chosenCards = []
+        // this.chosenPositions = []
+        // addDeckRandom(++this.chosenCards)
+        // decreaseSizeCards(++this.quantityCardsSelected)
+        // addDeckRandom(++this.quantityCardsSelected)
+        // }, 1000)
     }
 }
 
@@ -2204,6 +2244,9 @@ setTimeout(addDeckRandom, 1000)
 
 
 window.addEventListener('keyup', e => {
+    if (e.key == "'") {
+        hideAll()
+    }
     if (e.key == 'a') {
         showAll()
     }

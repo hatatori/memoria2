@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script defer src="./game.js"></script>
+    <script defer src="./connection.js"></script>
+    <link rel="stylesheet" href="./style.css">
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+
+<body>
+
+    <section class="debug_window">
+        <div><button class="btn1" onclick="decreaseSizeCards(2)">decreaseSizeCards(2)</button></div>
+        <div><button class="btn1" onclick="decreaseSizeCards(4)">decreaseSizeCards(4)</button></div>
+        <div><button class="btn1" onclick="decreaseSizeCardsNames36('2d 1g5 1aj 2d 1g5 1aj')">decreaseSizeCardsNames36('2d 1g5 1aj 2d 1g5 1aj')</button></div>
+        <div><button class="btn1" onclick="console.log(board())">board()</button></div>
+        <div><button class="btn1" onclick="console.log(board36())">board36()</button></div>
+        
+        
+        <div><button class="btn1" onclick="console.log(getCardsFlipedBinary())">getCardsFlipedBinary()</button></div>
+        <div><button class="btn1" onclick="cardsFliped('1100')">cardsFliped('1100')</button></div>
+        
+        
+    </section>
+
+    <header class="menutop">
+        <button class="btn1" onclick="decreaseSizeCardsIo(2)">2</button>
+        <button class="btn1" onclick="decreaseSizeCardsIo(3)">3</button>
+        <button class="btn1" onclick="decreaseSizeCardsIo(4)">4</button>
+        <button class="btn1" onclick="decreaseSizeCardsIo(8)">8</button>
+        <button class="btn1" onclick="decreaseSizeCardsIo(10)">10</button>
+        <button class="btn1" onclick="decreaseSizeCardsIo(12)">12</button>
+        <button class="btn1" onclick="decreaseSizeCardsIo(18)">18</button>
+        
+  
+        <button class="btn1" onclick="showAll()">Mostra tudo</button>
+        <button style="background-color: #c01d1d;" class="btn1" onclick="Game.hideAll()">Esconde tudo</button>
+        
+        
+        
+    </header>
+    <section class="container">
+        <div class="cards" id="cards">
+            <!-- <section class="card-item"><div class="card"><img src="./imagens/png/akali-classic.png"></div></section>
+            <section class="card-item"><div class="card"><img src="./imagens/png/akali-classic.png"></div></section> -->
+        </div>
+    </section>
+
+</body>
+
+</html>
